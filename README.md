@@ -1,57 +1,77 @@
-# PasadaFund - Stellar Route Resilience Protocol
+# PasadaFund: Stellar Route Resilience Protocol
 
-PasadaFund is a custom-built Soroban protocol focused on transparent route continuity support for Jeepney and Tricycle transport groups. It combines a real XLM on-chain reserve pool with member governance and a production-grade frontend integration.
+![PasadaFund Jeepney Banner](frontend/public/readme/jeepney.png)
+
+PasadaFund is a Soroban-based protocol designed to support route continuity for Jeepney and Tricycle transport groups through transparent, auditable, and community-governed reserve management on Stellar.
+
+It combines a real on-chain XLM reserve pool with proposal-based governance and a production-ready React dashboard.
+
+Live site: https://stellar-pasada-fund.vercel.app/
 
 ## Vision
-Build a trustworthy public-good reserve protocol where transport support decisions are transparent, auditable, and community-governed directly on Stellar.
 
-## Full-Stack Scope (One Repository)
+Build a trustworthy public-good reserve protocol where support decisions are transparent, auditable, and governed directly by contributors and members on Stellar.
+
+## Repository Scope
+
+This repository contains the complete full-stack implementation:
+
 - `contracts/pasadafund`: Soroban smart contract (Rust)
-- `frontend`: React + Vite dashboard with Freighter + Stellar SDK integration
+- `frontend`: React + Vite web dashboard with Freighter + Stellar SDK integration
 
 ## Core Features
-- Real reserve-pool transfers using `soroban_sdk::token::Client` against native XLM SAC
+
+- Real reserve pool transfers using `soroban_sdk::token::Client` against the native XLM SAC
 - Contributor-to-member governance model
-- Route support proposal submission and on-chain voting
-- Approval threshold at 2 votes
-- On-chain execution that transfers reserve-pool funds to recipient wallets
-- Frontend stroop-safe math with `BigInt` and 7-decimal precision
-- Static simulation account for stability in `simulateTransaction`
-- Dual RPC fallback for high-availability interaction
-- Premium dashboard UX with glassmorphism, transaction log, and confetti success feedback
-- On-chain event feed merged with local transaction activity
+- Route support proposal creation and on-chain voting
+- Approval threshold of 2 votes
+- On-chain proposal execution that transfers reserve pool funds to recipient wallets
+- Frontend stroop-safe arithmetic using `BigInt` with 7-decimal precision
+- Static simulation account for stable `simulateTransaction` behavior
+- Dual RPC fallback for improved reliability
+- Dashboard UX with glassmorphism, transaction history, and success-state confetti
+- Unified activity feed combining on-chain events and local transaction logs
 
 ## Deployed Contract Details (Testnet)
+
+![PasadaFund Contract ID](frontend/public/readme/contractId.png)
+
 - Contract ID: `CCLVGF3AR5WGDZF4RWMLVXTIBH3YBXOV3CLAWXNB73NSKXJDHE62WMAJ`
 - Admin Address: `GCOLFCAVXCQ6PEVYVFI64WKVDBELGPDROK76L5QQCA3AWHTNPRDSKEWB`
 - Native XLM SAC (testnet): `CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`
 - Explorer: https://stellar.expert/explorer/testnet/contract/CCLVGF3AR5WGDZF4RWMLVXTIBH3YBXOV3CLAWXNB73NSKXJDHE62WMAJ
-- Lab link: https://lab.stellar.org/r/testnet/contract/CCLVGF3AR5WGDZF4RWMLVXTIBH3YBXOV3CLAWXNB73NSKXJDHE62WMAJ
+- Stellar Lab: https://lab.stellar.org/r/testnet/contract/CCLVGF3AR5WGDZF4RWMLVXTIBH3YBXOV3CLAWXNB73NSKXJDHE62WMAJ
 
-## Transaction Proofs (Deployment + Init)
-- Upload WASM tx: https://stellar.expert/explorer/testnet/tx/8fbe62156798d88d13854f1f57ed5e70a7a53cc6ce3658a2e7c907d8a24c07a0
-- Deploy contract tx: https://stellar.expert/explorer/testnet/tx/968f1e158eb81166ceef51091f44badf60c2998dcec306e9bbfbf570ed7c44dd
-- Init contract tx: https://stellar.expert/explorer/testnet/tx/71461bfdbd6d8bda5fb7b6c2b8aaef8951869253b0f037aff98a4f379c5fcd91
+## Transaction Proofs
+
+- Upload WASM transaction: https://stellar.expert/explorer/testnet/tx/8fbe62156798d88d13854f1f57ed5e70a7a53cc6ce3658a2e7c907d8a24c07a0
+- Contract deployment transaction: https://stellar.expert/explorer/testnet/tx/968f1e158eb81166ceef51091f44badf60c2998dcec306e9bbfbf570ed7c44dd
+- Contract initialization transaction: https://stellar.expert/explorer/testnet/tx/71461bfdbd6d8bda5fb7b6c2b8aaef8951869253b0f037aff98a4f379c5fcd91
 
 ## Local Development
+
 ### 1. Smart Contract
-~~~bash
+
+```bash
 cd contracts/pasadafund
 cargo check
 cargo test
 stellar contract build
-~~~
+```
 
 ### 2. Frontend
-~~~bash
+
+```bash
 cd frontend
 cp .env.example .env
 npm install
 npm run dev
-~~~
+```
 
-## Frontend Environment
-Use these values in `frontend/.env`:
+## Frontend Environment Variables
+
+Configure the following values in `frontend/.env`:
+
 - `VITE_PASADAFUND_CONTRACT_ID`
 - `VITE_NATIVE_XLM_CONTRACT_ID`
 - `VITE_STELLAR_NETWORK_PASSPHRASE`
@@ -59,29 +79,33 @@ Use these values in `frontend/.env`:
 - `VITE_STELLAR_RPC_SECONDARY`
 
 ## Vercel Deployment
-This repository is configured for root-level Vercel deployment via `vercel.json`:
+
+This repository is configured for root-level Vercel deployment through `vercel.json`:
+
 - Install command: `npm --prefix frontend install`
 - Build command: `npm --prefix frontend run build`
 - Output directory: `frontend/dist`
 
-Set the following environment variables in your Vercel project settings:
-- `VITE_PASADAFUND_CONTRACT_ID`
-- `VITE_NATIVE_XLM_CONTRACT_ID`
-- `VITE_STELLAR_NETWORK_PASSPHRASE`
-- `VITE_STELLAR_RPC_PRIMARY`
-- `VITE_STELLAR_RPC_SECONDARY`
+Set the same environment variables listed above in your Vercel project settings.
 
 ## Build Validation
-~~~bash
+
+```bash
 cd contracts/pasadafund && cargo test
 cd ../../frontend && npm run build
-~~~
+```
 
-## RiseIn Submission Fields
-- GitHub Repository: this repository URL
-- Contract ID: `CCLVGF3AR5WGDZF4RWMLVXTIBH3YBXOV3CLAWXNB73NSKXJDHE62WMAJ`
-- Stellar Expert Link: https://stellar.expert/explorer/testnet/contract/CCLVGF3AR5WGDZF4RWMLVXTIBH3YBXOV3CLAWXNB73NSKXJDHE62WMAJ
-- Short Description: PasadaFund is a route resilience protocol on Stellar where contributors fund a reserve pool, governance members vote on transport operations support requests, and approved disbursements execute transparently on-chain.
+## Maintainer
 
-## Screenshots
-- UI and explorer screenshots should be stored in `docs/screenshots/` for final submission.
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td align="center" width="50%" style="padding-top: 20px;">
+      <img src="frontend/public/readme/adriel.jpg" alt="Adriel Magalona" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover;"><br>
+      <strong>Adriel Magalona</strong><br>
+      <a href="https://www.linkedin.com/in/adr1el/">
+        <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" alt="LinkedIn">
+      </a>
+    </td>
+  </tr>
+</table>
+
