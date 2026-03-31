@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import { getAddress, requestAccess } from '@stellar/freighter-api'
 import {
@@ -35,27 +35,130 @@ const REPO_LINK = 'https://github.com/adr1el-m/stellar-PasadaFund'
 
 function JeepneyBadge() {
   return (
-    <svg className="jeepney-badge" viewBox="0 0 240 120" role="img" aria-label="Jeepney icon">
-      <defs>
-        <linearGradient id="jeepneyChrome" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ffe8ad" />
-          <stop offset="100%" stopColor="#e3a72f" />
-        </linearGradient>
-      </defs>
-      <rect x="14" y="32" width="152" height="48" rx="10" fill="url(#jeepneyChrome)" />
-      <rect x="166" y="40" width="44" height="40" rx="7" fill="#f7c85d" />
-      <rect x="28" y="40" width="38" height="18" rx="3" fill="#1a1f27" />
-      <rect x="72" y="40" width="38" height="18" rx="3" fill="#1a1f27" />
-      <rect x="116" y="40" width="38" height="18" rx="3" fill="#1a1f27" />
-      <rect x="169" y="47" width="34" height="12" rx="2" fill="#1a1f27" />
-      <rect x="22" y="67" width="180" height="8" rx="4" fill="#bb7b12" />
-      <circle cx="52" cy="87" r="14" fill="#0f1218" />
-      <circle cx="52" cy="87" r="7" fill="#d8dce4" />
-      <circle cx="154" cy="87" r="14" fill="#0f1218" />
-      <circle cx="154" cy="87" r="7" fill="#d8dce4" />
-      <path d="M206 42 L228 32 L228 80 L206 80 Z" fill="#f2b73c" />
-    </svg>
+    <img
+      className="jeepney-badge"
+      src="/readme/jeepney.png"
+      alt="Philippine jeepney with fuel reserve visual"
+      loading="eager"
+      decoding="async"
+    />
   )
+}
+
+function InteractiveParticles() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) {
+      return
+    }
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) {
+      return
+    }
+
+    const pointer = { x: -9999, y: -9999 }
+    let raf = 0
+    let particles: Array<{ x: number; y: number; vx: number; vy: number; r: number; hue: number }> = []
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1
+      const { innerWidth, innerHeight } = window
+      canvas.width = Math.floor(innerWidth * dpr)
+      canvas.height = Math.floor(innerHeight * dpr)
+      canvas.style.width = `${innerWidth}px`
+      canvas.style.height = `${innerHeight}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+      const count = Math.min(75, Math.max(35, Math.floor(innerWidth / 24)))
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * innerWidth,
+        y: Math.random() * innerHeight,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.8 + 0.9,
+        hue: Math.random() > 0.82 ? 50 : Math.random() > 0.45 ? 202 : 350,
+      }))
+    }
+
+    const onMove = (event: MouseEvent) => {
+      pointer.x = event.clientX
+      pointer.y = event.clientY
+    }
+
+    const onLeave = () => {
+      pointer.x = -9999
+      pointer.y = -9999
+    }
+
+    const draw = () => {
+      const w = window.innerWidth
+      const h = window.innerHeight
+      ctx.clearRect(0, 0, w, h)
+
+      for (let i = 0; i < particles.length; i += 1) {
+        const p = particles[i]
+
+        const dx = pointer.x - p.x
+        const dy = pointer.y - p.y
+        const dist = Math.hypot(dx, dy)
+        if (dist < 140) {
+          const push = (140 - dist) / 140
+          p.vx -= (dx / (dist || 1)) * push * 0.028
+          p.vy -= (dy / (dist || 1)) * push * 0.028
+        }
+
+        p.vx *= 0.99
+        p.vy *= 0.99
+        p.x += p.vx
+        p.y += p.vy
+
+        if (p.x < -10) p.x = w + 10
+        if (p.x > w + 10) p.x = -10
+        if (p.y < -10) p.y = h + 10
+        if (p.y > h + 10) p.y = -10
+
+        ctx.beginPath()
+        ctx.fillStyle = `hsla(${p.hue}, 92%, 62%, 0.42)`
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fill()
+
+        for (let j = i + 1; j < particles.length; j += 1) {
+          const q = particles[j]
+          const linkDx = p.x - q.x
+          const linkDy = p.y - q.y
+          const linkDist = Math.hypot(linkDx, linkDy)
+          if (linkDist < 92) {
+            ctx.beginPath()
+            ctx.strokeStyle = `rgba(65, 170, 255, ${0.16 - linkDist / 650})`
+            ctx.lineWidth = 1
+            ctx.moveTo(p.x, p.y)
+            ctx.lineTo(q.x, q.y)
+            ctx.stroke()
+          }
+        }
+      }
+
+      raf = window.requestAnimationFrame(draw)
+    }
+
+    resize()
+    draw()
+    window.addEventListener('resize', resize)
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseleave', onLeave)
+
+    return () => {
+      window.cancelAnimationFrame(raf)
+      window.removeEventListener('resize', resize)
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
+
+  return <canvas className="particle-canvas" ref={canvasRef} aria-hidden="true" />
 }
 
 function App() {
@@ -79,7 +182,7 @@ function App() {
   const [proposalAmount, setProposalAmount] = useState('')
   const [voteId, setVoteId] = useState('1')
   const [executeId, setExecuteId] = useState('1')
-  const [presentationMode, setPresentationMode] = useState(false)
+  const [hasEnteredDashboard, setHasEnteredDashboard] = useState(false)
 
   const [simDrivers, setSimDrivers] = useState('120')
   const [simDailySubsidy, setSimDailySubsidy] = useState('80')
@@ -255,8 +358,62 @@ function App() {
     await submitAction(() => client.execute(wallet, id), 'Approved disbursement executed from reserve pool.', 'Execute')
   }
 
+  if (!hasEnteredDashboard) {
+    return (
+      <div className="landing-shell">
+        <InteractiveParticles />
+        <section className="landing-hero">
+          <p className="brand-kicker">Stellar Route Resilience Protocol</p>
+          <h1>PasadaFund</h1>
+          <p className="landing-tagline">
+            Protecting route continuity for Jeepney and Tricycle communities with transparent, on-chain governance.
+          </p>
+          <p className="landing-subcopy">
+            Every contribution, vote, and disbursement is recorded on Soroban for full auditability and public trust.
+          </p>
+          <div className="landing-chip-row">
+            <span>Real XLM Reserve</span>
+            <span>On-chain Votes</span>
+            <span>Soroban-backed Transparency</span>
+          </div>
+          <div className="landing-actions">
+            <button className="action-btn" onClick={() => setHasEnteredDashboard(true)}>
+              Enter Dashboard
+            </button>
+            <button className="action-btn ghost" onClick={connectWallet} disabled={isBusy}>
+              {wallet ? `Wallet ${shortAddress(wallet)}` : 'Connect Freighter'}
+            </button>
+          </div>
+          <div className="proof-links">
+            <a href={EXPLORER_LINK} target="_blank" rel="noreferrer">Live Contract</a>
+            <a href={REPO_LINK} target="_blank" rel="noreferrer">Open Repository</a>
+          </div>
+        </section>
+
+        <section className="landing-visual">
+          <JeepneyBadge />
+          <div className="landing-stats">
+            <article>
+              <span>Reserve Design</span>
+              <strong>Community-funded XLM Pool</strong>
+            </article>
+            <article>
+              <span>Governance</span>
+              <strong>On-chain voting and execution</strong>
+            </article>
+            <article>
+              <span>Objective</span>
+              <strong>Route continuity during fuel shocks</strong>
+            </article>
+          </div>
+        </section>
+      </div>
+    )
+  }
+
   return (
-    <div className={`app-shell ${presentationMode ? 'presentation-mode' : ''}`}>
+    <div className="app-shell">
+      <InteractiveParticles />
       <header className="topbar">
         <div className="headline-wrap">
           <p className="brand-kicker">Stellar Route Resilience Protocol</p>
@@ -264,23 +421,21 @@ function App() {
           <p className="tagline">A transparent route resilience protocol for Jeepney and Tricycle operators facing rising fuel costs across the Philippines.</p>
           <p className="tagline-sub">Built for route associations, transport cooperatives, and LGU partners who need auditable support decisions on-chain.</p>
         </div>
-        <JeepneyBadge />
-        <button
-          className="action-btn"
-          onClick={connectWallet}
-          disabled={isBusy}
-        >
-          {wallet ? `Wallet ${shortAddress(wallet)}` : 'Connect Freighter'}
-        </button>
+        <div className="topbar-aside">
+          <JeepneyBadge />
+          <div className="topbar-actions">
+            <button className="action-btn" onClick={connectWallet} disabled={isBusy}>
+              {wallet ? `Wallet ${shortAddress(wallet)}` : 'Connect Freighter'}
+            </button>
+            <button className="action-btn ghost" onClick={() => setHasEnteredDashboard(false)}>
+              Back to Landing
+            </button>
+          </div>
+        </div>
       </header>
 
       <section className="command-bar">
-        <div className="command-group">
-          <span>Hackathon Demo Controls</span>
-          <button className="action-btn ghost" onClick={() => setPresentationMode((prev) => !prev)}>
-            {presentationMode ? 'Presentation: ON' : 'Presentation: OFF'}
-          </button>
-        </div>
+        <span className="quick-links-label">Quick Links</span>
         <div className="proof-links">
           <a href={EXPLORER_LINK} target="_blank" rel="noreferrer">Live Contract</a>
           <a href={REPO_LINK} target="_blank" rel="noreferrer">Open Repository</a>

@@ -1,10 +1,10 @@
 :root {
-  --charcoal-1: #0b0c10;
-  --charcoal-2: #13151a;
-  --charcoal-3: #1d2027;
-  --line: rgba(255, 214, 116, 0.24);
-  --gold: #ffd469;
-  --amber-soft: #ffc657;
+  --charcoal-1: #070c16;
+  --charcoal-2: #0f1726;
+  --charcoal-3: #172235;
+  --line: rgba(61, 169, 255, 0.28);
+  --gold: #2db9ff;
+  --amber-soft: #f5cf45;
   --text-strong: #f6f7fb;
   --text-soft: #d0d6dd;
   --text-muted: #9aa4b2;
@@ -25,14 +25,17 @@
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   color: var(--text-soft);
   background:
-    radial-gradient(1200px 500px at 90% -10%, rgba(255, 195, 79, 0.15), transparent 55%),
-    radial-gradient(700px 400px at -10% 30%, rgba(201, 147, 43, 0.15), transparent 60%),
-    linear-gradient(180deg, var(--charcoal-3), var(--charcoal-2) 32%, var(--charcoal-1));
+    radial-gradient(1200px 520px at 90% -8%, rgba(44, 182, 255, 0.16), transparent 62%),
+    radial-gradient(860px 460px at -10% 32%, rgba(224, 46, 78, 0.11), transparent 66%),
+    radial-gradient(700px 360px at 42% 104%, rgba(245, 207, 69, 0.08), transparent 66%),
+    linear-gradient(180deg, #1a2740 0%, #111d31 42%, #0b1321 100%);
 }
 
 #root {
+  overflow-x: hidden;
   width: min(1240px, 100%);
   margin: 0 auto;
   min-height: 100vh;
