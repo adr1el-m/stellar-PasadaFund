@@ -36,8 +36,7 @@ body {
 
 #root {
   overflow-x: hidden;
-  width: min(1240px, 100%);
-  margin: 0 auto;
+  width: 100%;
   min-height: 100vh;
 }
 

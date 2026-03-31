@@ -45,6 +45,17 @@ function JeepneyBadge() {
   )
 }
 
+function GitHubMark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="github-mark">
+      <path
+        fill="currentColor"
+        d="M12 2C6.48 2 2 6.59 2 12.24C2 16.76 4.87 20.59 8.84 21.94C9.34 22.03 9.53 21.72 9.53 21.45C9.53 21.2 9.52 20.53 9.52 19.82C6.73 20.45 6.14 18.45 6.14 18.45C5.68 17.25 5 16.93 5 16.93C4.09 16.29 5.07 16.3 5.07 16.3C6.08 16.38 6.61 17.36 6.61 17.36C7.5 18.95 8.95 18.49 9.52 18.21C9.61 17.54 9.87 17.08 10.16 16.82C7.94 16.56 5.62 15.67 5.62 11.69C5.62 10.55 6.01 9.63 6.65 8.9C6.55 8.64 6.2 7.58 6.75 6.14C6.75 6.14 7.59 5.86 9.5 7.19C10.3 6.96 11.15 6.85 12 6.85C12.85 6.85 13.71 6.96 14.52 7.19C16.43 5.86 17.27 6.14 17.27 6.14C17.82 7.58 17.47 8.64 17.37 8.9C18.01 9.63 18.4 10.55 18.4 11.69C18.4 15.68 16.08 16.56 13.85 16.82C14.22 17.15 14.56 17.78 14.56 18.76C14.56 20.17 14.55 21.31 14.55 21.45C14.55 21.72 14.74 22.03 15.25 21.94C19.22 20.59 22.09 16.76 22.09 12.24C22.09 6.59 17.61 2 12.09 2H12Z"
+      />
+    </svg>
+  )
+}
+
 function InteractiveParticles() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
@@ -386,7 +397,10 @@ function App() {
           </div>
           <div className="proof-links">
             <a href={EXPLORER_LINK} target="_blank" rel="noreferrer">Live Contract</a>
-            <a href={REPO_LINK} target="_blank" rel="noreferrer">Open Repository</a>
+            <a href={REPO_LINK} target="_blank" rel="noreferrer" className="repo-link">
+              <GitHubMark />
+              <span>Open Repository</span>
+            </a>
           </div>
         </section>
 
@@ -438,7 +452,10 @@ function App() {
         <span className="quick-links-label">Quick Links</span>
         <div className="proof-links">
           <a href={EXPLORER_LINK} target="_blank" rel="noreferrer">Live Contract</a>
-          <a href={REPO_LINK} target="_blank" rel="noreferrer">Open Repository</a>
+          <a href={REPO_LINK} target="_blank" rel="noreferrer" className="repo-link">
+            <GitHubMark />
+            <span>Open Repository</span>
+          </a>
         </div>
       </section>
 
