@@ -31,6 +31,8 @@ Through on-chain governance, transport cooperatives and contributors can propose
 
 ## 🚀 Deployment Status (Testnet)
 
+![Contract ID](frontend/public/readme/contractId.png)
+
 | Component | Value |
 | :--- | :--- |
 | **Contract ID** | `CCLVGF3AR5WGDZF4RWMLVXTIBH3YBXOV3CLAWXNB73NSKXJDHE62WMAJ` |
@@ -41,7 +43,8 @@ Through on-chain governance, transport cooperatives and contributors can propose
 ## 🎥 Proof of Operation
 
 ### Interactive Demo
-https://github.com/adr1el-m/stellar-PasadaFund/raw/main/frontend/public/readme/Demo.mp4
+
+<video src="https://github.com/adr1el-m/stellar-PasadaFund/raw/main/frontend/public/readme/Demo.mp4" width="100%" controls></video>
 
 ### Platform Snapshots
 
