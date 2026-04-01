@@ -49,16 +49,16 @@ Through on-chain governance, transport cooperatives and contributors can propose
 | Landing Page | Dashboard Overview |
 | :---: | :---: |
 | ![Landing](frontend/public/readme/LandingPage.png) | ![Dashboard](frontend/public/readme/1.png) |
-| **Proposal Governance** | **Transaction History** |
+| **Proposal Governance** | **Contribution History** |
 | ![Proposals](frontend/public/readme/2.png) | ![Activity](frontend/public/readme/3.png) |
 
 ### Complete User Flow
 
 | Initiate Contribution | Enter Amount & Confirm |
 | :---: | :---: |
-| ![Wallet Connection](frontend/public/readme/connectingFreighterWallet.png) | ![Reserve Deposit](frontend/public/readme/ContributingToPool.png) |
+| ![Wallet Connection](frontend/public/readme/connecting-freighter-wallet.png) | ![Reserve Deposit](frontend/public/readme/contributing-to-pool.png) |
 | **Transaction Confirmation** | **Contribution Reflected in Stellar Expert** |
-| ![Confirm Txn](frontend/public/readme/Successful\ transaction\(pool\ contribution\).png) | ![Explorer Confirmation](frontend/public/readme/theContibutionreflected.png) |
+| ![Confirm Txn](frontend/public/readme/successful-pool-contribution.png) | ![Explorer Confirmation](frontend/public/readme/contribution-reflected.png) |
 
 ## 🛠️ Core Features
 
@@ -92,7 +92,7 @@ Through on-chain governance, transport cooperatives and contributors can propose
 
 ## ✅ Contract Test Verification
 
-![All Tests Passing](frontend/public/readme/contractTest.png)
+![All Tests Passing](frontend/public/readme/contract-test.png)
 
 All core business logic is verified through comprehensive unit and integration tests:
 - ✓ Contribution mechanism with treasury updates
