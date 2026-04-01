@@ -42,9 +42,7 @@ Through on-chain governance, transport cooperatives and contributors can propose
 
 ## 🎥 Proof of Operation
 
-### Interactive Demo
-
-![Demo Video](frontend/public/readme/Demo.mp4)
+[![Demo Video](https://img.shields.io/badge/Demo%20Video-Watch%20Now-black?style=for-the-badge&logo=youtube&logoColor=ff0000)](frontend/public/readme/Demo.mp4)
 
 ### Platform Snapshots
 
@@ -53,6 +51,14 @@ Through on-chain governance, transport cooperatives and contributors can propose
 | ![Landing](frontend/public/readme/LandingPage.png) | ![Dashboard](frontend/public/readme/1.png) |
 | **Proposal Governance** | **Transaction History** |
 | ![Proposals](frontend/public/readme/2.png) | ![Activity](frontend/public/readme/3.png) |
+
+### Complete User Flow
+
+| Initiate Contribution | Enter Amount & Confirm |
+| :---: | :---: |
+| ![Wallet Connection](frontend/public/readme/connectingFreighterWallet.png) | ![Reserve Deposit](frontend/public/readme/ContributingToPool.png) |
+| **Transaction Confirmation** | **Contribution Reflected in Stellar Expert** |
+| ![Confirm Txn](frontend/public/readme/Successful\ transaction\(pool\ contribution\).png) | ![Explorer Confirmation](frontend/public/readme/theContibutionreflected.png) |
 
 ## 🛠️ Core Features
 
@@ -83,6 +89,15 @@ Through on-chain governance, transport cooperatives and contributors can propose
 │   └── App.tsx             # Main Dashboard & Governance UI
 └── vercel.json             # Root-level Vercel Deployment Config
 ```
+
+## ✅ Contract Test Verification
+
+![All Tests Passing](frontend/public/readme/contractTest.png)
+
+All core business logic is verified through comprehensive unit and integration tests:
+- ✓ Contribution mechanism with treasury updates
+- ✓ Multi-member proposal voting with threshold enforcement
+- ✓ Secure fund transfers to verified recipients
 
 ## 💻 Local Development
 
